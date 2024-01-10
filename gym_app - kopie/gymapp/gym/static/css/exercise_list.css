@@ -1,0 +1,32 @@
+/* static/css/exercise_list.css */
+body {
+    padding: 20px;
+}
+
+.exercise-card {
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    text-align: center;
+    flex: 1;
+    padding: 1rem;
+}
+
+.card-link {
+    text-decoration: none; /* Remove default link underline */
+    color: inherit; /* Inherit the color from the parent (black) */
+}
+
+.card-link:hover {
+    text-decoration: none; /* Remove underline on hover */
+    color: inherit; /* Inherit the color from the parent (black) */
+}
+
+.card-title {
+    color: lightskyblue; /* Set h5 color to blue */
+}
+

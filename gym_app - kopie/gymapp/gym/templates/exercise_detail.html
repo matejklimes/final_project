@@ -1,0 +1,19 @@
+<!-- templates/exercise_detail.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}{{ exercise.name }}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/exercise_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mt-4 mb-4">{{ exercise.name }}</h1>
+        <a href="{% url 'exercise_list' %}" class="btn btn-primary">Back to Exercise List</a>
+    </div>
+
+    <p>{{ exercise.description }}</p>
+    <p>Category: {{ exercise.category }}</p>
+    <p>Bodypart: {{ exercise.bodypart }}</p>
+{% endblock %}
