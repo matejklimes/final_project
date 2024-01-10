@@ -33,6 +33,29 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+    
+class Set(models.Model):
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    reps = models.PositiveIntegerField()
+    weight = models.FloatField()
+    # Add other fields as needed
+
+    def __str__(self):
+        return f"Set for {self.exercise.name}"
+    
+
+
+class Workout(models.Model):
+    name = models.CharField(max_length=100)
+    date_created = models.DateTimeField(auto_now_add=True)
+    sets = models.ManyToManyField(Set, blank=True)
+
+    def __str__(self):
+        return self.name
+    
+
 
 
 
