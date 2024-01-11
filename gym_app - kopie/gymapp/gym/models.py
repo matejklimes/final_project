@@ -35,7 +35,7 @@ class Exercise(models.Model):
         return self.name
     
 
-    
+
 class Set(models.Model):
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     reps = models.PositiveIntegerField()
@@ -48,12 +48,13 @@ class Set(models.Model):
 
 
 class Workout(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     sets = models.ManyToManyField(Set, blank=True)
+    exercises = models.ManyToManyField(Exercise, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else f'Workout {self.pk}'
     
 
 

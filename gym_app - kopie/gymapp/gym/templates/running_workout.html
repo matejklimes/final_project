@@ -1,0 +1,20 @@
+<!-- templates/running_workout.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Running Workout{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/running_workout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4 mb-4">Running Workout</h1>
+
+    <!-- Form for adding/editing workouts -->
+    <form method="post" id="workout-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Finish Workout</button>
+    </form>
+{% endblock %}
+

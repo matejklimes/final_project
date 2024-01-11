@@ -1,0 +1,21 @@
+<!-- templates/workout_summary.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Workout Summary{% endblock %}
+{% block content %}
+    <h1 class="mt-4 mb-4">Workout Summary</h1>
+    <p><strong>Name:</strong> {{ workout.name }}</p>
+    <p><strong>Exercises:</strong></p>
+    <ul>
+        {% for exercise in workout.exercises.all %}
+            <li>{{ exercise.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Button to go back to workout list -->
+    <a href="{% url 'workout_list' %}">
+        <button type="button">Back to Workout List</button>
+    </a>
+{% endblock %}
+

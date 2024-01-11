@@ -1,0 +1,36 @@
+/* Add these styles to your existing CSS */
+.exercise-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.selected-exercise {
+    padding: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.exercise-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.exercise-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.exercise-list li:hover {
+    background-color: #f1f1f1;
+}
+
+.exercise-dropdown.open .exercise-list {
+    display: block;
+}

@@ -1,0 +1,200 @@
+class RunningWorkoutView(View):
+    def get(self, request):
+        form = AddExerciseForm()
+        last_workout = Workout.objects.last()
+        default_workout_name = f'Workout number {last_workout.id + 1}' if last_workout else 'Workout number 1'
+        form.fields['workout_name'].initial = default_workout_name
+
+        return render(request, 'running_workout.html', {'form': form})
+
+    def post(self, request):
+        form = AddExerciseForm(request.POST)
+        if form.is_valid():
+            workout_name = form.cleaned_data['workout_name']
+            selected_exercise = form.cleaned_data['exercises']
+
+            # Create a new Workout instance
+            workout = Workout(name=workout_name)
+            workout.save()
+
+            # Associate the selected exercise with the workout
+            workout.exercises.add(selected_exercise)
+
+            # Create a Set instance for the selected exercise
+            set_instance = Set.objects.create(exercise=selected_exercise, reps=0, weight=0)
+
+            # Associate the set with the workout
+            workout.sets.add(set_instance)
+
+            # Save the changes to the database
+            workout.save()
+
+            # Set the workout_id in the form instance for use in the template
+            form.workout_id = workout.id
+
+            print(f"Saved Workout ID: {workout.id}")
+
+            # Add print statements to check the value of workout_id
+            print(f"workout_id before redirect: {workout.id}")
+            return redirect('workout_summary', workout_id=str(workout.id))
+
+        print("Form is invalid")
+        return render(request, 'running_workout.html', {'form': form})
+    
+
+class WorkoutSummaryView(DetailView):
+    model = Workout
+    template_name = 'workout_summary.html'
+    context_object_name = 'workout'
+
+    def post(self, request, *args, **kwargs):
+        workout_id = self.kwargs['workout_id']
+        workout = Workout.objects.get(pk=workout_id)
+
+        # Your post request handling logic goes here
+        # For example, you can update workout details based on the posted data
+        # Update workout details using request.POST data
+
+        return render(request, self.template_name, {'workout': workout})
+
+
+
+
+class AddExerciseForm(forms.ModelForm):
+    workout_name = forms.CharField(
+        max_length=100,
+        label='Workout Name',
+        initial='Workout number {{ workout_name }}'  # Set the default value
+    )
+    exercises = forms.ModelChoiceField(
+        queryset=Exercise.objects.all(),
+        empty_label="Choose an exercise",
+        widget=forms.Select(attrs={'class': 'exercise-select'}),
+        label='Exercises'
+    )
+
+    def __init__(self, *args, **kwargs):
+        workout_id = kwargs.pop('workout_id', None)
+        super(AddExerciseForm, self).__init__(*args, **kwargs)
+
+        # Set the default value for workout_name using the provided workout_id
+        if workout_id:
+            self.fields['workout_name'].initial = f'Workout number {workout_id}'
+
+    class Meta:
+        model = Workout
+        fields = ['workout_name', 'exercises']
+
+
+
+
+
+<!-- templates/running_workout.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Running Workout{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/running_workout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4 mb-4">Running Workout</h1>
+   
+    {% if form.errors %}
+    <ul class="errorlist">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <!-- Form with hidden input for workout ID -->
+    <form method="post" id="workout-form">
+        {% csrf_token %}
+        <!-- Hidden input for workout ID -->
+        <input type="hidden" name="workout_id" value="{{ form.workout_id }}">   
+
+        {{ form.workout_name }}
+
+        <div class="exercise-dropdown">
+            <span class="selected-exercise" id="selected-exercise">{{ form.exercises.value }}</span>
+            <ul class="exercise-list">
+                {% for exercise in form.exercises.field.queryset %}
+                    <li class="exercise-list-item" data-exercise-id="{{ exercise.id }}">{{ exercise.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <button type="submit">Add Exercise</button>
+    </form>
+
+    <!-- Container for added exercises -->
+    <div id="added-exercises-container">
+        <!-- Container to display selected exercises -->
+        {% if form.exercises.value %}
+            <div class="added-exercise">{{ form.exercises.value }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Button to finish workout -->
+    <button type="button" id="finish-workout-btn">Finish Workout</button>
+
+    <!-- JavaScript to handle dynamic addition of selected exercises and form submission -->
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    var form = document.getElementById('workout-form');
+    var finishWorkoutBtn = document.getElementById('finish-workout-btn');
+  
+    finishWorkoutBtn.addEventListener('click', function () {
+      // Get the workout ID from the hidden input field
+      var workoutIdInput = document.querySelector('input[name="workout_id"]');
+      var workoutId = workoutIdInput.value.trim();  // Trim to remove leading/trailing whitespace
+  
+      // Set the form action to the workout summary URL with the correct workout ID
+      form.action = '/gym/workout_summary/' + workoutId + '/';
+  
+      // Submit the form with the updated action
+      form.submit();
+    });
+
+       var dropdown = document.querySelector('.exercise-dropdown');
+       var selectedExercise = document.getElementById('selected-exercise');
+       var addedExercisesContainer = document.getElementById('added-exercises-container');
+
+       dropdown.addEventListener('click', function (event) {
+           if (event.target.classList.contains('exercise-list-item')) {
+               // If a list item is clicked, update selectedExercise and close the dropdown
+               selectedExercise.textContent = event.target.textContent;
+               dropdown.classList.remove('open');
+           } else {
+               // Toggle the dropdown for other click events
+               dropdown.classList.toggle('open');
+           }
+       });
+
+       document.querySelectorAll('.exercise-list li').forEach(function (exercise) {
+           exercise.addEventListener('click', function () {
+               selectedExercise.textContent = this.textContent;
+               dropdown.classList.remove('open');
+           });
+       });
+
+       document.querySelector('form').addEventListener('submit', function (event) {
+           event.preventDefault();
+           var selectedExerciseValue = selectedExercise.textContent.trim();
+           if (selectedExerciseValue) {
+               var newExerciseElement = document.createElement('div');
+               newExerciseElement.className = 'added-exercise';
+               newExerciseElement.textContent = selectedExerciseValue;
+               addedExercisesContainer.appendChild(newExerciseElement);
+
+               // Clear the selected exercise after adding it
+               selectedExercise.textContent = "Choose an exercise";
+           }
+       });
+   });
+</script>
+{% endblock %}
