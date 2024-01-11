@@ -4,7 +4,7 @@
 
 {% block title %}Workout List{% endblock %}
 {% block head %}
-    <!-- Add any additional head content as needed -->
+    <link rel="stylesheet" href="{% static 'css/workout_list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -14,14 +14,19 @@
     </div>
 
     {% if workouts %}
-        <ul>
-            {% for workout in workouts %}
-                <li>
-                    <a href="{% url 'workout_detail' pk=workout.pk %}">{{ workout.name }}</a>
-                    ({{ workout.date_created | date:'F d, Y' }})
-                </li>
-            {% endfor %}
-        </ul>
+        {% for workout in workouts %}
+            <div class="workout-item">
+                <h2><a href="{% url 'workout_detail' pk=workout.pk %}">{{ workout.name }}</a></h2>
+                <div class="exercise-and-date">
+                    <ul class="exercise-list">
+                        {% for exercise in workout.exercises.all %}
+                            <li>{{ exercise.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p>Date: {{ workout.date_created | date:'F d, Y' }}</p>
+                </div>
+            </div>
+        {% endfor %}
     {% else %}
         <p>No workouts available.</p>
     {% endif %}

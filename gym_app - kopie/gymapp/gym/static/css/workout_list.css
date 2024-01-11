@@ -1,0 +1,36 @@
+.workout-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.workout-item h2 {
+    margin-bottom: 10px;
+}
+
+.workout-item ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.workout-item li {
+    margin-bottom: 5px;
+}
+
+.workout-item .exercise-and-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.workout-item .exercise-list {
+    flex-grow: 1;
+}
+
+.workout-item p {
+    color: #6c757d;
+}
