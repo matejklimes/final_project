@@ -64,8 +64,3 @@ class Workout(models.Model):
     def __str__(self):
         return self.name if self.name else f'Workout {self.pk}'
 
-
-
-
-
-

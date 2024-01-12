@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import DetailView, ListView, View
 from django.db import transaction
+import json
 
 
-from .models import Exercise, Workout, WorkoutExercise
+from .models import Exercise, Workout, WorkoutExercise, Set
 from .forms import WorkoutForm
 
 
@@ -76,7 +77,20 @@ class RunningWorkoutView(View):
             # Save the workout again to update the many-to-many relationship
             workout.save()
 
-            # Redirect to the workout summary page with the newly created workout's ID
+            # Retrieve set details from the hidden input field
+            set_details_json = request.POST.get('set_details', '[]')
+            set_details = json.loads(set_details_json)
+
+            # Create sets and associate them with the workout
+            for detail in set_details:
+                exercise_id = detail['exerciseId']
+                exercise = Exercise.objects.get(pk=exercise_id)
+                reps = detail['reps']
+                weight = detail['weight']
+                set_instance = Set.objects.create(exercise=exercise, reps=reps, weight=weight)
+                workout_exercise = WorkoutExercise.objects.get(workout=workout, exercise=exercise)
+                workout_exercise.sets.add(set_instance)
+
             return redirect('workout_summary', workout_id=workout.id)
 
         return render(request, 'running_workout.html', {'form': form})

@@ -25,11 +25,14 @@
         <!-- Add exercise button -->
         <button type="button" id="add-exercise">Add Exercise</button>
 
-        <!-- Exercise list placeholder -->
-        <div id="exercise-list-placeholder"></div>
+        <!-- Exercise list with sets -->
+        <div id="exercise-list-placeholder">
+            <!-- This will be populated dynamically -->
+        </div>
 
-        <!-- Hidden input field to store selected exercise IDs -->
+        <!-- Hidden input fields to store selected exercise IDs and set details -->
         <input type="hidden" name="selected_exercises" id="selected-exercises" value="">
+        <input type="hidden" name="set_details" id="set-details" value="">
 
         <button type="submit">Finish Workout</button>
     </form>
@@ -56,18 +59,47 @@
 
             if (selectedExerciseIndex !== -1) {
                 const selectedOption = selectElement.options[selectedExerciseIndex];
+                const exerciseId = selectedOption.value;  // Assuming exercise ID is the value of the option
                 const exerciseName = selectedOption.textContent;
 
-                // Create a new paragraph element with the exercise name and append it to the placeholder
+                // Create a new div for the exercise with sets and set the data-exercise-id attribute
                 const exerciseListPlaceholder = document.getElementById('exercise-list-placeholder');
-                const newExerciseElement = document.createElement('p');
-                newExerciseElement.textContent = exerciseName;
+                const newExerciseElement = document.createElement('div');
+                newExerciseElement.setAttribute('data-exercise-id', exerciseId);
+                newExerciseElement.innerHTML = `
+                    <p>${exerciseName}</p>
+                    <div class="set-row">
+                        <label>Reps: <input type="number" name="reps_${exerciseId}_1" required></label>
+                        <label>Weight (kg): <input type="number" name="weight_${exerciseId}_1" step="0.5" required></label>
+                        <button type="button" class="add-set-button" data-exercise-id="${exerciseId}">Add Set</button>
+                    </div>
+                `;
                 exerciseListPlaceholder.appendChild(newExerciseElement);
 
                 // Store the selected exercise ID in the hidden input field
                 const selectedExercisesInput = document.getElementById('selected-exercises');
-                selectedExercisesInput.value += selectedOption.value + ',';
+                selectedExercisesInput.value += exerciseId + ',';
+
+                // Add event listener for the "Add Set" button
+                const addSetButton = newExerciseElement.querySelector('.add-set-button');
+                addSetButton.addEventListener('click', addSetToExercise);
             }
+        }
+
+        // Function to add a new set row to an exercise
+        function addSetToExercise() {
+            const exerciseId = this.getAttribute('data-exercise-id');
+            const exerciseDiv = document.querySelector(`[data-exercise-id="${exerciseId}"]`);
+            const setRowCount = exerciseDiv.querySelectorAll('.set-row').length + 1;
+
+            // Create a new set row and append it to the exercise div
+            const newSetRow = document.createElement('div');
+            newSetRow.classList.add('set-row');
+            newSetRow.innerHTML = `
+                <label>Reps: <input type="number" name="reps_${exerciseId}_${setRowCount}" required></label>
+                <label>Weight (kg): <input type="number" name="weight_${exerciseId}_${setRowCount}" step="0.5" required></label>
+            `;
+            exerciseDiv.appendChild(newSetRow);
         }
 
         // Event listener for the "Add Exercise" button
@@ -80,6 +112,16 @@
                 alert('Please add at least one exercise to the workout.');
                 event.preventDefault();
             }
+
+            // Prepare set details for submission
+            const setDetails = [];
+            document.querySelectorAll('[id^="exercise-list-placeholder"] .set-row').forEach(setRow => {
+                const exerciseId = setRow.closest('[data-exercise-id]').getAttribute('data-exercise-id');
+                const reps = setRow.querySelector(`input[name^="reps_${exerciseId}"]`).value;
+                const weight = setRow.querySelector(`input[name^="weight_${exerciseId}"]`).value;
+                setDetails.push({ exerciseId, reps, weight });
+            });
+            document.getElementById('set-details').value = JSON.stringify(setDetails);
         });
 
         // Fetch exercises when the page loads

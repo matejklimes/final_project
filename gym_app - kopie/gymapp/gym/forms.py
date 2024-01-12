@@ -1,7 +1,13 @@
 # forms.py
 from django import forms
-from .models import Workout
 from datetime import datetime
+from django.forms import inlineformset_factory
+
+from .models import Workout, Set
+
+
+
+
 
 
 class WorkoutForm(forms.ModelForm):
@@ -11,6 +17,7 @@ class WorkoutForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
 
         # Get the current time
         current_time = datetime.now().time()
