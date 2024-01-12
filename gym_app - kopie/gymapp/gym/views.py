@@ -4,7 +4,7 @@ from django.views.generic import DetailView, ListView, View
 from django.db import transaction
 
 
-from .models import Exercise, Workout
+from .models import Exercise, Workout, WorkoutExercise
 from .forms import WorkoutForm
 
 
@@ -80,6 +80,7 @@ class RunningWorkoutView(View):
             return redirect('workout_summary', workout_id=workout.id)
 
         return render(request, 'running_workout.html', {'form': form})
+
 
 class WorkoutSummaryView(View):
     def get(self, request, workout_id):

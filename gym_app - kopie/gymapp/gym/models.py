@@ -37,25 +37,32 @@ class Exercise(models.Model):
 
 
 class Set(models.Model):
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='sets')
     reps = models.PositiveIntegerField()
     weight = models.FloatField()
-    # Add other fields as needed
 
     def __str__(self):
         return f"Set for {self.exercise.name}"
+
+
+
+class WorkoutExercise(models.Model):
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    sets = models.ManyToManyField(Set, blank=True)
+
+    def __str__(self):
+        return f"WorkoutExercise for {self.workout} - {self.exercise}"
     
 
 
 class Workout(models.Model):
     name = models.CharField(max_length=100, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    sets = models.ManyToManyField(Set, blank=True)
-    exercises = models.ManyToManyField(Exercise, blank=True)
+    exercises = models.ManyToManyField(Exercise, through=WorkoutExercise, blank=True)
 
     def __str__(self):
         return self.name if self.name else f'Workout {self.pk}'
-    
 
 
 

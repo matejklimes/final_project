@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import index, ExerciseListView, ExerciseDetailView, WorkoutListView, WorkoutDetailView, StartNewWorkoutView, RunningWorkoutView, WorkoutSummaryView, ExerciseJSONView
+from .views import index, ExerciseListView, ExerciseDetailView, WorkoutListView, WorkoutDetailView, StartNewWorkoutView,WorkoutSummaryView, ExerciseJSONView, RunningWorkoutView
 
 urlpatterns = [
     path("", index, name="index"),
