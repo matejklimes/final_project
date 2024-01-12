@@ -3,8 +3,6 @@ from django import forms
 from .models import Workout
 from datetime import datetime
 
-# forms.py
-from django import forms
 
 class WorkoutForm(forms.ModelForm):
     class Meta:

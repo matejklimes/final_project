@@ -1,0 +1,83 @@
+class RunningWorkoutView(View):
+    def get(self, request):
+        form = WorkoutForm()
+        return render(request, 'running_workout.html', {'form': form})
+
+    def post(self, request):
+        form = WorkoutForm(request.POST)
+        if form.is_valid():
+            workout = form.save()
+            # Redirect to the workout summary page with the newly created workout's ID
+            return redirect('workout_summary', workout_id=workout.id)
+        return render(request, 'running_workout.html', {'form': form})
+
+
+
+<!-- templates/running_workout.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Running Workout{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/running_workout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4 mb-4">Running Workout</h1>
+
+    <!-- Form for adding/editing workouts -->
+    <form method="post" id="workout-form">
+        {% csrf_token %}
+        {{ form.name }}
+
+        <!-- Dropdown for choosing exercises -->
+        <select id="exercise-select" name="exercise">
+            <!-- Option for the default prompt -->
+            <option value="" disabled selected>Select an exercise</option>
+            <!-- Options for each exercise fetched dynamically -->
+        </select>
+
+        <!-- Add exercise button -->
+        <button type="button" id="add-exercise">Add Exercise</button>
+
+        <!-- Exercise list placeholder -->
+        <div id="exercise-list-placeholder"></div>
+
+        <button type="submit">Finish Workout</button>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        // Fetch exercises from the server using AJAX
+        function fetchExercises() {
+            fetch('{% url "exercise_list_json" %}')  // Replace "exercise_list" with the correct URL name for your exercise list view
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the dropdown with exercises
+                    const selectElement = document.getElementById('exercise-select');
+                    selectElement.innerHTML = '<option value="" disabled selected>Select an exercise</option>' +
+                        data.map(exercise => `<option value="${exercise.id}">${exercise.name}</option>`).join('');
+                })
+                .catch(error => console.error('Error fetching exercises:', error));
+        }
+
+        document.getElementById('add-exercise').addEventListener('click', function () {
+            const selectElement = document.getElementById('exercise-select');
+            const selectedExerciseIndex = selectElement.selectedIndex;
+        
+            if (selectedExerciseIndex !== -1) {
+                const selectedOption = selectElement.options[selectedExerciseIndex];
+                const exerciseName = selectedOption.textContent;
+        
+                // Create a new paragraph element with the exercise name and append it to the placeholder
+                const exerciseListPlaceholder = document.getElementById('exercise-list-placeholder');
+                const newExerciseElement = document.createElement('p');
+                newExerciseElement.textContent = exerciseName;
+                exerciseListPlaceholder.appendChild(newExerciseElement);
+            }
+        });
+
+        // Fetch exercises when the page loads
+        fetchExercises();
+    </script>
+{% endblock %}

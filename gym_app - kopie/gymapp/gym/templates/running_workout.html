@@ -13,8 +13,63 @@
     <!-- Form for adding/editing workouts -->
     <form method="post" id="workout-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.name }}
+
+        <!-- Dropdown for choosing exercises -->
+        <select id="exercise-select" name="exercise">
+            <!-- Option for the default prompt -->
+            <option value="" disabled selected>Select an exercise</option>
+            <!-- Options for each exercise fetched dynamically -->
+        </select>
+
+        <!-- Add exercise button -->
+        <button type="button" id="add-exercise">Add Exercise</button>
+
+        <!-- Exercise list placeholder -->
+        <div id="exercise-list-placeholder"></div>
+
+        <!-- Hidden input field to store selected exercise IDs -->
+        <input type="hidden" name="selected_exercises" id="selected-exercises" value="">
+
         <button type="submit">Finish Workout</button>
     </form>
 {% endblock %}
+{% block scripts %}
+    <script>
+        // Fetch exercises from the server using AJAX
+        function fetchExercises() {
+            fetch('{% url "exercise_list_json" %}')  // Replace "exercise_list" with the correct URL name for your exercise list view
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the dropdown with exercises
+                    const selectElement = document.getElementById('exercise-select');
+                    selectElement.innerHTML = '<option value="" disabled selected>Select an exercise</option>' +
+                        data.map(exercise => `<option value="${exercise.id}">${exercise.name}</option>`).join('');
+                })
+                .catch(error => console.error('Error fetching exercises:', error));
+        }
 
+        document.getElementById('add-exercise').addEventListener('click', function () {
+            const selectElement = document.getElementById('exercise-select');
+            const selectedExerciseIndex = selectElement.selectedIndex;
+
+            if (selectedExerciseIndex !== -1) {
+                const selectedOption = selectElement.options[selectedExerciseIndex];
+                const exerciseName = selectedOption.textContent;
+
+                // Create a new paragraph element with the exercise name and append it to the placeholder
+                const exerciseListPlaceholder = document.getElementById('exercise-list-placeholder');
+                const newExerciseElement = document.createElement('p');
+                newExerciseElement.textContent = exerciseName;
+                exerciseListPlaceholder.appendChild(newExerciseElement);
+
+                // Store the selected exercise ID in the hidden input field
+                const selectedExercisesInput = document.getElementById('selected-exercises');
+                selectedExercisesInput.value += selectedOption.value + ',';
+            }
+        });
+
+        // Fetch exercises when the page loads
+        fetchExercises();
+    </script>
+{% endblock %}
