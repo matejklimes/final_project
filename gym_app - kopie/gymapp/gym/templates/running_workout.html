@@ -38,7 +38,7 @@
     <script>
         // Fetch exercises from the server using AJAX
         function fetchExercises() {
-            fetch('{% url "exercise_list_json" %}')  // Replace "exercise_list" with the correct URL name for your exercise list view
+            fetch('{% url "exercise_list_json" %}')
                 .then(response => response.json())
                 .then(data => {
                     // Populate the dropdown with exercises
@@ -49,7 +49,8 @@
                 .catch(error => console.error('Error fetching exercises:', error));
         }
 
-        document.getElementById('add-exercise').addEventListener('click', function () {
+        // Function to add selected exercises to the list
+        function addSelectedExercise() {
             const selectElement = document.getElementById('exercise-select');
             const selectedExerciseIndex = selectElement.selectedIndex;
 
@@ -66,6 +67,18 @@
                 // Store the selected exercise ID in the hidden input field
                 const selectedExercisesInput = document.getElementById('selected-exercises');
                 selectedExercisesInput.value += selectedOption.value + ',';
+            }
+        }
+
+        // Event listener for the "Add Exercise" button
+        document.getElementById('add-exercise').addEventListener('click', addSelectedExercise);
+
+        // Event listener for the form submission
+        document.getElementById('workout-form').addEventListener('submit', function () {
+            // Ensure at least one exercise is selected before submitting the form
+            if (document.getElementById('selected-exercises').value === '') {
+                alert('Please add at least one exercise to the workout.');
+                event.preventDefault();
             }
         });
 

@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Ab Wheel",
+    "description": "1. Hold the ab wheel with both hands and kneel on the floor. \r\n2. Place the ab roller on the floor in front of your knees. This is your starting position.",
+    "category": "Weighted Bodyweight",
+    "bodypart": "Core"
+  },
+  {
+    "name": "Plank",
+    "description": "1. Support the body by the forearms and the toes on the floor while bracing the core.",
+    "category": "Duration",
+    "bodypart": "Core"
+  },
+  {
+    "name": "Bicep Curl (Barbell)",
+    "description": "1. Stand while holding the barbell at shoulder width with an underhand grip and elbows touching the side of the torso.",
+    "category": "Barbell",
+    "bodypart": "Arms"
+  },
+  {
+    "name": "Bench Dip",
+    "description": "1. NOTE: To increase the difficulty for this exercise, have an exercise partner place a weight plate on your lap.",
+    "category": "Weighted Bodyweight",
+    "bodypart": "Arms"
+  },
+  {
+    "name": "Lat Pulldown (Cable)",
+    "description": "1. Sit on the pull down machine with knee pads adjusted to provide support, preventing your body from being pulled out of position.",
+    "category": "Machine / Other",
+    "bodypart": "Back"
+  },
+  {
+    "name": "Bent Over One Arm Row (Dumbbell)",
+    "description": "1. Kneel over side of bench by placing knee and hand of supporting arm on bench.",
+    "category": "Dumbbell",
+    "bodypart": "Back"
+  },
+  {
+    "name": "Incline Bench Press (Dumbbell)",
+    "description": "1. Lie on the incline bench holding the dumbbells with a shoulder width pronated grip.",
+    "category": "Dumbbell",
+    "bodypart": "Chest"
+  },
+  {
+    "name": "Chest Dip (Assisted)",
+    "description": "1. Holding body from arms extended above the chest dip bars with knees placed on the assistance pad. This is your starting position.",
+    "category": "Assisted Bodyweight",
+    "bodypart": "Chest"
+  },
+  {
+    "name": "Hip Thrust (Bodyweight)",
+    "description": "1. Lie down on the floor or a mat with your hands to the side or over the top of your head, whichever feels more stable.",
+    "category": "Reps Only",
+    "bodypart": "Legs"
+  },
+  {
+    "name": "Standing Calf Raise (Barbell)",
+    "description": "1. Place the barbell on your shoulder.",
+    "category": "Barbell",
+    "bodypart": "Legs"
+  },
+  {
+    "name": "Lateral Raise (Dumbbell)",
+    "description": "1. Start with the dumbbells resting on the side of the thigh. The arm should be slightly bent.",
+    "category": "Dumbbell",
+    "bodypart": "Shoulders"
+  },
+  {
+    "name": "Strict Military Press (Barbell)",
+    "description": "1. Start with barbell at slightly below chest level.",
+    "category": "Barbell",
+    "bodypart": "Shoulders"
+  },
+  {
+    "name": "Stretching",
+    "description": "1. Get into stretch position and hold while breathing deeply.",
+    "category": "Duration",
+    "bodypart": "Other"
+  },
+  {
+    "name": "Clean (Barbell)",
+    "description": "1. As this is a complex movement, we recommend consulting a trainer who is able to instruct you with the appropriate form and cues.",
+    "category": "Barbell",
+    "bodypart": "Olympic"
+  },
+  {
+    "name": "Jumping Jack",
+    "description": "1. Starting with feet close together and arms at the side, slightly bend the knees.",
+    "category": "Reps Only",
+    "bodypart": "Full Body"
+  },
+  {
+    "name": "Muscle Up",
+    "description": "1. NOTE: You can perform this exercise on a pull up bar or rings. As this is complex movement, we recommend consulting a trainer who is able to instruct you with the appropriate form and cues.",
+    "category": "Weighted Bodyweight",
+    "bodypart": "Full Body"
+  },
+  {
+    "name": "Running",
+    "description": "We don't have instructions for this exercise yet :(",
+    "category": "Cardio",
+    "bodypart": "Cardio"
+  },
+  {
+    "name": "Yoga",
+    "description": "We don't have instructions for this exercise yet :(",
+    "category": "Duration",
+    "bodypart": "Cardio"
+  }
+]
