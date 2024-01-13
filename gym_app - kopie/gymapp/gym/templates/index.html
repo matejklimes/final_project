@@ -1,0 +1,14 @@
+<!-- templates/index.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Gym Tracker{% endblock %}
+
+{% block content %}
+  <h1 class="mt-4 mb-4 text-center">Welcome to Gym Tracker!</h1>
+  <div class="mt-5 mb-4 text-center">
+    <p>Track your workouts, set goals, and achieve new milestones with Gym Tracker.</p>
+    <p>Get started by <a href="{% url 'start_new_workout' %}">starting a new workout</a>.</p>
+  </div>
+  
+{% endblock %}

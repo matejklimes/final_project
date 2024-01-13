@@ -1,0 +1,55 @@
+/* static/css/main_styles.css */
+
+body {
+    background-color: #222;
+    color: #fff;
+}
+
+#menu {
+    background-color: #333;
+    padding: 10px;
+}
+
+#menu a {
+    color: #fff;
+    margin-right: 15px;
+    text-decoration: none;
+    background-color: #333; /* Set initial background color */
+    padding: 5px 10px; /* Add padding to create "blocks" */
+    border-radius: 5px; /* Add rounded corners for a block-like appearance */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+#menu a:hover {
+    background-color: #555 !important; /* Darker color on hover */
+    text-decoration: none;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+/* Add Bootstrap styles for buttons */
+.btn {
+    color: #fff;
+}
+
+/* Dark theme for Bootstrap navbar */
+.navbar-dark {
+    background-color: #333;
+}
+
+/* Styling for Bootstrap cards */
+.card {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Additional styling for links inside cards */
+.card a {
+    color: #fff;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}

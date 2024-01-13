@@ -1,32 +1,26 @@
-/* static/css/exercise_list.css */
-body {
-    padding: 20px;
+/* Add this to your existing CSS or create a new file 'exercise_list.css' */
+.exercise-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the minmax values as needed */
+    gap: 20px; /* Adjust the gap between exercises as needed */
 }
 
-.exercise-card {
-    border-radius: 15px;
+.exercise-item {
+    border: 1px solid #555;
+    border-radius: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    height: 100%;
-}
-
-.card-body {
+    justify-content: center;
     text-align: center;
-    flex: 1;
-    padding: 1rem;
 }
 
-.card-link {
-    text-decoration: none; /* Remove default link underline */
-    color: inherit; /* Inherit the color from the parent (black) */
+.exercise-item a {
+    text-decoration: none; /* Remove default underline for links */
+    color: inherit; /* Inherit text color from the parent */
+    transition: color 0.3s; /* Add a smooth transition effect for color changes */
 }
 
-.card-link:hover {
-    text-decoration: none; /* Remove underline on hover */
-    color: inherit; /* Inherit the color from the parent (black) */
+.exercise-item:hover a {
+    color: #007bff; /* Change the color to your desired hover color */
 }
-
-.card-title {
-    color: lightseagreen; /* Set h5 color to blue */
-}
-

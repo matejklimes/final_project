@@ -1,42 +1,42 @@
 <!-- templates/workout_list.html -->
 {% extends 'base_generic.html' %}
+{% load static %}
 
 {% block title %}Workout List{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/workout_list.css' %}">
+{% endblock %}
+
 {% block content %}
-  <h2>Workout List</h2>
+  <div class="workout-list-container">
+    <div class="header-container mb-4">
+      <h1>Workout List</h1>
+      <a href="{% url 'start_new_workout' %}" class="btn btn-primary">Start New Workout</a>
+    </div>
 
-  <a href="{% url 'start_new_workout' %}" class="btn btn-primary mb-2">Start New Workout</a>
-
-  {% if workouts %}
-    <ul class="list-group">
-      {% for workout in workouts %}
-        <li class="list-group-item">
-          <h3>{{ workout.name }}</h3>
-          <p><strong>Date Created:</strong> {{ workout.date_created }}</p>
-          <h4>Exercises:</h4>
-          <ul class="list-group">
-            {% for workout_exercise in workout.workoutexercise_set.all %}
-              <li class="list-group-item">
-                <h5>{{ workout_exercise.exercise.name }}</h5>
-                <p><strong>Description:</strong> {{ workout_exercise.exercise.description }}</p>
-                <p><strong>Category:</strong> {{ workout_exercise.exercise.get_category_display }}</p>
-                <p><strong>Body Part:</strong> {{ workout_exercise.exercise.get_bodypart_display }}</p>
-                <h6>Sets:</h6>
-                <ul class="list-group">
-                  {% for set in workout_exercise.sets.all %}
-                    <li class="list-group-item">
-                      <p><strong>Reps:</strong> {{ set.reps }}, <strong>Weight:</strong> {{ set.weight }}</p>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            {% endfor %}
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No workouts available.</p>
-  {% endif %}
+    {% if workouts %}
+      <ul>
+        {% for workout in workouts %}
+          <a href="{% url 'workout_detail' workout.id %}" class="workout-link">
+            <div class="workout-item">
+              <div class="workout-header">
+                <h3 class="text-primary">{{ workout.name }}</h3>
+                <p><strong>{{ workout.date_created }}</strong></p>
+              </div>
+              <ul>
+                {% for workout_exercise in workout.workoutexercise_set.all %}
+                  <li>
+                    <h5>{{ workout_exercise.exercise.name }}</h5>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </a>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No workouts available.</p>
+    {% endif %}
+  </div>
 {% endblock %}

@@ -1,36 +1,63 @@
-.workout-item {
-    display: flex;
-    flex-direction: column;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+/* Styling for the workout list page */
+.workout-list-container {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.workout-item h2 {
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.workout-item {
+    border: 1px solid #555;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
+.workout-header h3 {
+    margin: 0; /* Remove the default margin from h3 */
+}
+
+.workout-header p {
+    margin: 0; /* Remove the default margin from p */
+}
+
+.workout-item h4 {
+    margin-top: 10px;
+}
+
 .workout-item ul {
-    list-style-type: none;
+    list-style: none; /* Remove list-style-type to hide bullets */
     padding: 0;
+    margin-top: 10px; /* Add spacing above the list of exercises */
 }
 
 .workout-item li {
     margin-bottom: 5px;
 }
 
-.workout-item .exercise-and-date {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.workout-item li h5 {
+    margin-bottom: 5px;
 }
 
-.workout-item .exercise-list {
-    flex-grow: 1;
+/* Add this to your existing CSS */
+.workout-link {
+    text-decoration: none; /* Remove default underline for links */
+    color: inherit; /* Inherit text color from the parent */
+    transition: color 0.3s;
 }
 
-.workout-item p {
-    color: #6c757d;
+.workout-link:hover {
+    text-decoration: none; /* Remove underline on hover */
 }

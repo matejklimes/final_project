@@ -9,11 +9,11 @@
 
 {% block content %}
     <div class="d-flex justify-content-between align-items-center">
-        <h1 class="mt-4 mb-4">{{ exercise.name }}</h1>
+        <h1 class="mt-4 mb-5">{{ exercise.name }}</h1>
         <a href="{% url 'exercise_list' %}" class="btn btn-primary">Back to Exercise List</a>
     </div>
 
     <p>{{ exercise.description }}</p>
-    <p>Category: {{ exercise.category }}</p>
-    <p>Bodypart: {{ exercise.bodypart }}</p>
+    <h5 class="mt-5 mb-4">Category: <strong>{{ exercise.category }}</strong></h5>
+    <h5>Bodypart: <strong>{{ exercise.bodypart }}</strong></h5>
 {% endblock %}

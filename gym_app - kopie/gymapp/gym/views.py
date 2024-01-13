@@ -11,7 +11,7 @@ from .forms import WorkoutForm
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the gym index.")
+    return render(request, 'index.html')
 
 
 class ExerciseListView(ListView):
@@ -48,8 +48,6 @@ class WorkoutDetailView(DetailView):
 
 class StartNewWorkoutView(View):
     def get(self, request, *args, **kwargs):
-        # Add any logic for starting a new workout (e.g., creating a new workout instance)
-        # For now, let's redirect to a placeholder template "running_workout.html"
         return redirect('running_workout')
     
 
@@ -60,7 +58,11 @@ class RunningWorkoutView(View):
 
     def post(self, request):
         form = WorkoutForm(request.POST)
-        if form.is_valid():
+        if request.POST.get('cancel_workout'):
+            # Redirect to the workout list without saving the workout
+            return redirect('workout_list')
+        
+        elif form.is_valid():
             # Save the workout without committing to the database
             workout = form.save(commit=False)
 

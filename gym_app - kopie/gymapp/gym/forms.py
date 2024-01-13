@@ -7,9 +7,6 @@ from .models import Workout, Set
 
 
 
-
-
-
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout

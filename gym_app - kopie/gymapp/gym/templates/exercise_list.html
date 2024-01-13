@@ -8,17 +8,17 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mt-4 mb-4">Exercise List</h1>
+    <h1 class="mb-4">Exercise List</h1>
 
-    <div class="row">
+    <div class="exercise-list">
         {% for exercise in exercises %}
-            <div class="col-md-3 mb-4">
-                <a href="{% url 'exercise_detail' pk=exercise.pk %}" class="card-link">
-                    <div class="card exercise-card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ exercise.name }}</h5>
-                            <p class="card-text">{{ exercise.category }}</p>
-                            <p class="card-text">{{ exercise.bodypart }}</p>
+            <div class="exercise-item">
+                <a href="{% url 'exercise_detail' pk=exercise.pk %}">
+                    <div>
+                        <div>
+                            <h5 class="text-primary">{{ exercise.name }}</h5>
+                            <p>{{ exercise.category }}</p>
+                            <p>{{ exercise.bodypart }}</p>
                         </div>
                     </div>
                 </a>
