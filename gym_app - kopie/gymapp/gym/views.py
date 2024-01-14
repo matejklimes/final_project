@@ -59,7 +59,6 @@ class RunningWorkoutView(View):
     def post(self, request):
         form = WorkoutForm(request.POST)
         if request.POST.get('cancel_workout'):
-            # Redirect to the workout list without saving the workout
             return redirect('workout_list')
         
         elif form.is_valid():

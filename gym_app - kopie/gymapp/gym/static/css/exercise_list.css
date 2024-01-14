@@ -1,8 +1,8 @@
-/* Add this to your existing CSS or create a new file 'exercise_list.css' */
+
 .exercise-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust the minmax values as needed */
-    gap: 20px; /* Adjust the gap between exercises as needed */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 20px; 
 }
 
 .exercise-item {
@@ -16,11 +16,11 @@
 }
 
 .exercise-item a {
-    text-decoration: none; /* Remove default underline for links */
-    color: inherit; /* Inherit text color from the parent */
-    transition: color 0.3s; /* Add a smooth transition effect for color changes */
+    text-decoration: none; 
+    color: inherit; 
+    transition: color 0.3s; 
 }
 
 .exercise-item:hover a {
-    color: #007bff; /* Change the color to your desired hover color */
+    color: #007bff; 
 }

@@ -3,28 +3,22 @@
 Workout{% endblock %} {% block head %}
 <link rel="stylesheet" href="{% static 'css/running_workout.css' %}" />
 {% endblock %} {% block content %}
-<!-- Form for adding/editing workouts -->
+
 <form method="post" id="workout-form">
-  {% csrf_token %} 
-  
+  {% csrf_token %}
+
   <h1 class="mb-5 mt-5">{{ form.name }}</h1>
 
-  <!-- Dropdown for choosing exercises -->
   <select id="exercise-select" name="exercise">
-    <!-- Option for the default prompt -->
     <option value="" disabled selected>Select an exercise</option>
-    <!-- Options for each exercise fetched dynamically -->
   </select>
 
-  <!-- Add exercise button -->
-  <button type="button" id="add-exercise" class="btn btn-primary">Add Exercise</button>
+  <button type="button" id="add-exercise" class="btn btn-primary">
+    Add Exercise
+  </button>
 
-  <!-- Exercise list with sets -->
-  <div id="exercise-list-placeholder">
-    <!-- This will be populated dynamically -->
-  </div>
+  <div id="exercise-list-placeholder"></div>
 
-  <!-- Hidden input fields to store selected exercise IDs and set details -->
   <input
     type="hidden"
     name="selected_exercises"
@@ -34,38 +28,44 @@ Workout{% endblock %} {% block head %}
   <input type="hidden" name="set_details" id="set-details" value="" />
 
   <button type="submit" class="btn btn-success mt-4">Finish Workout</button>
-  <button type="button" id="cancel-workout" class="btn btn-secondary mt-4">Cancel Workout</button>
+  <button type="button" id="cancel-workout" class="btn btn-secondary mt-4">
+    Cancel Workout
+  </button>
 </form>
 {% endblock %} {% block scripts %}
 <script>
-    // Fetch exercises from the server using AJAX
-    function fetchExercises() {
-        fetch('{% url "exercise_list_json" %}')
-            .then(response => response.json())
-            .then(data => {
-                // Populate the dropdown with exercises
-                const selectElement = document.getElementById('exercise-select');
-                selectElement.innerHTML = '<option value="" disabled selected>Select an exercise</option>' +
-                    data.map(exercise => `<option value="${exercise.id}">${exercise.name}</option>`).join('');
-            })
-            .catch(error => console.error('Error fetching exercises:', error));
-    }
+  function fetchExercises() {
+    fetch('{% url "exercise_list_json" %}')
+      .then((response) => response.json())
+      .then((data) => {
+        const selectElement = document.getElementById("exercise-select");
+        selectElement.innerHTML =
+          '<option value="" disabled selected>Select an exercise</option>' +
+          data
+            .map(
+              (exercise) =>
+                `<option value="${exercise.id}">${exercise.name}</option>`
+            )
+            .join("");
+      })
+      .catch((error) => console.error("Error fetching exercises:", error));
+  }
 
-    // Function to add selected exercises to the list
-    function addSelectedExercise() {
-        const selectElement = document.getElementById('exercise-select');
-        const selectedExerciseIndex = selectElement.selectedIndex;
+  function addSelectedExercise() {
+    const selectElement = document.getElementById("exercise-select");
+    const selectedExerciseIndex = selectElement.selectedIndex;
 
-        if (selectedExerciseIndex !== -1) {
-            const selectedOption = selectElement.options[selectedExerciseIndex];
-            const exerciseId = selectedOption.value;  // Assuming exercise ID is the value of the option
-            const exerciseName = selectedOption.textContent;
+    if (selectedExerciseIndex !== -1) {
+      const selectedOption = selectElement.options[selectedExerciseIndex];
+      const exerciseId = selectedOption.value;
+      const exerciseName = selectedOption.textContent;
 
-            // Create a new div for the exercise with sets and set the data-exercise-id attribute
-            const exerciseListPlaceholder = document.getElementById('exercise-list-placeholder');
-            const newExerciseElement = document.createElement('div');
-            newExerciseElement.setAttribute('data-exercise-id', exerciseId);
-            newExerciseElement.innerHTML = `
+      const exerciseListPlaceholder = document.getElementById(
+        "exercise-list-placeholder"
+      );
+      const newExerciseElement = document.createElement("div");
+      newExerciseElement.setAttribute("data-exercise-id", exerciseId);
+      newExerciseElement.innerHTML = `
                 <h4 class="mt-4 mb-3">${exerciseName}</h4>
                 <div class="set-row">
                     <label>Reps: <input type="number" name="reps_${exerciseId}_1" required></label>
@@ -73,62 +73,66 @@ Workout{% endblock %} {% block head %}
                     <button type="button" class="add-set-button btn btn-primary" data-exercise-id="${exerciseId}">Add Set</button>
                 </div>
             `;
-            exerciseListPlaceholder.appendChild(newExerciseElement);
+      exerciseListPlaceholder.appendChild(newExerciseElement);
 
-            // Store the selected exercise ID in the hidden input field
-            const selectedExercisesInput = document.getElementById('selected-exercises');
-            selectedExercisesInput.value += exerciseId + ',';
+      const selectedExercisesInput =
+        document.getElementById("selected-exercises");
+      selectedExercisesInput.value += exerciseId + ",";
 
-            // Add event listener for the "Add Set" button
-            const addSetButton = newExerciseElement.querySelector('.add-set-button');
-            addSetButton.addEventListener('click', addSetToExercise);
+      const addSetButton = newExerciseElement.querySelector(".add-set-button");
+      addSetButton.addEventListener("click", addSetToExercise);
 
-            // Update the selected exercises input field
-            updateSelectedExercisesInput();
-        }
+      updateSelectedExercisesInput();
     }
+  }
 
-    // Function to add a new set row to an exercise
-    function addSetToExercise() {
-        const exerciseId = this.getAttribute('data-exercise-id');
-        const exerciseDiv = document.querySelector(`[data-exercise-id="${exerciseId}"]`);
-        const setRowCount = exerciseDiv.querySelectorAll('.set-row').length + 1;
+  function addSetToExercise() {
+    const exerciseId = this.getAttribute("data-exercise-id");
+    const exerciseDiv = document.querySelector(
+      `[data-exercise-id="${exerciseId}"]`
+    );
+    const setRowCount = exerciseDiv.querySelectorAll(".set-row").length + 1;
 
-        // Create a new set row and append it to the exercise div
-        const newSetRow = document.createElement('div');
-        newSetRow.classList.add('set-row');
-        newSetRow.innerHTML = `
+    const newSetRow = document.createElement("div");
+    newSetRow.classList.add("set-row");
+    newSetRow.innerHTML = `
             <label>Reps: <input type="number" name="reps_${exerciseId}_${setRowCount}" required></label>
             <label>Weight (kg): <input type="number" name="weight_${exerciseId}_${setRowCount}" step="0.5" required></label>
         `;
-        exerciseDiv.appendChild(newSetRow);
-    }
+    exerciseDiv.appendChild(newSetRow);
+  }
 
-    // Event listener for the "Add Exercise" button
-    document.getElementById('add-exercise').addEventListener('click', addSelectedExercise);
+  document
+    .getElementById("add-exercise")
+    .addEventListener("click", addSelectedExercise);
 
-    // Event listener for the form submission
-    document.getElementById('workout-form').addEventListener('submit', function () {
-        // Ensure at least one exercise is selected before submitting the form
-        if (document.getElementById('selected-exercises').value === '') {
-            alert('Please add at least one exercise to the workout.');
-            event.preventDefault();
-        }
+  document
+    .getElementById("workout-form")
+    .addEventListener("submit", function () {
+      if (document.getElementById("selected-exercises").value === "") {
+        alert("Please add at least one exercise to the workout.");
+        event.preventDefault();
+      }
 
-        // Prepare set details for submission
-        const setDetails = [];
-        document.querySelectorAll('[id^="exercise-list-placeholder"] .set-row').forEach(setRow => {
-            const exerciseId = setRow.closest('[data-exercise-id]').getAttribute('data-exercise-id');
-            const reps = setRow.querySelector(`input[name^="reps_${exerciseId}"]`).value;
-            const weight = setRow.querySelector(`input[name^="weight_${exerciseId}"]`).value;
-            setDetails.push({ exerciseId, reps, weight });
+      const setDetails = [];
+      document
+        .querySelectorAll('[id^="exercise-list-placeholder"] .set-row')
+        .forEach((setRow) => {
+          const exerciseId = setRow
+            .closest("[data-exercise-id]")
+            .getAttribute("data-exercise-id");
+          const reps = setRow.querySelector(
+            `input[name^="reps_${exerciseId}"]`
+          ).value;
+          const weight = setRow.querySelector(
+            `input[name^="weight_${exerciseId}"]`
+          ).value;
+          setDetails.push({ exerciseId, reps, weight });
         });
-        document.getElementById('set-details').value = JSON.stringify(setDetails);
+      document.getElementById("set-details").value = JSON.stringify(setDetails);
     });
 
-    // Fetch exercises when the page loads
-    fetchExercises();
-
+  fetchExercises();
 </script>
 <script src="{% static 'js/cancel_workout.js' %}"></script>
 {% endblock %}

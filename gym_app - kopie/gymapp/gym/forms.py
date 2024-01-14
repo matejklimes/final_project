@@ -15,8 +15,6 @@ class WorkoutForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-
-        # Get the current time
         current_time = datetime.now().time()
 
         # Set default workout name based on the current time

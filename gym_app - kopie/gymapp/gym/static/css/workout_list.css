@@ -1,4 +1,4 @@
-/* Styling for the workout list page */
+
 .workout-list-container {
     max-width: 800px;
     margin: 0 auto;
@@ -26,11 +26,11 @@
 }
 
 .workout-header h3 {
-    margin: 0; /* Remove the default margin from h3 */
+    margin: 0; 
 }
 
 .workout-header p {
-    margin: 0; /* Remove the default margin from p */
+    margin: 0; 
 }
 
 .workout-item h4 {
@@ -38,9 +38,9 @@
 }
 
 .workout-item ul {
-    list-style: none; /* Remove list-style-type to hide bullets */
+    list-style: none; 
     padding: 0;
-    margin-top: 10px; /* Add spacing above the list of exercises */
+    margin-top: 10px; 
 }
 
 .workout-item li {
@@ -51,13 +51,12 @@
     margin-bottom: 5px;
 }
 
-/* Add this to your existing CSS */
 .workout-link {
-    text-decoration: none; /* Remove default underline for links */
-    color: inherit; /* Inherit text color from the parent */
+    text-decoration: none;
+    color: inherit;
     transition: color 0.3s;
 }
 
 .workout-link:hover {
-    text-decoration: none; /* Remove underline on hover */
+    text-decoration: none;
 }

@@ -1,4 +1,4 @@
-/* Add these styles to your existing CSS */
+
 .exercise-dropdown {
     position: relative;
     display: inline-block;
@@ -36,19 +36,17 @@
 }
 
 input[type="number"] {
-    border: 1px solid #f8f9fa; /* Add your preferred border color */
-    border-radius: 5px; /* Adjust the border-radius as needed for rounded corners */
-    padding: 8px; /* Add padding for a better appearance */
-    background-color: #333; /* Set the background color to match the whole page */
-    color: #f8f9fa; /* Set the text color */
-    /* Add any other styles as needed */
+    border: 1px solid #f8f9fa; 
+    border-radius: 5px; 
+    padding: 8px; 
+    background-color: #333; 
+    color: #f8f9fa; 
 }
 
 #exercise-select {
-    background-color: #555; /* Set the background color to grey or your preferred color */
-    border: 1px solid #555; /* Add your preferred border color */
-    border-radius: 5px; /* Adjust the border-radius as needed for rounded corners */
-    padding: 8px; /* Add padding for a better appearance */
-    color: #dcdcdc; /* Set the text color */
-    /* Add any other styles as needed */
+    background-color: #555; 
+    border: 1px solid #555; 
+    border-radius: 5px; 
+    padding: 8px; 
+    color: #dcdcdc; 
 }
