@@ -2,8 +2,8 @@
 
 Stačí zadat příkazy: 
 
-py -m venv .venv
-.venv\Scripts\activate
-pip install -r gymapp\requirements.txt
-py -m gymapp\manage.py createsuperuser
-py -m gymapp\manage.py runserver
+1. ```py -m venv .venv```
+2. ```.venv\Scripts\activate```
+3. ```pip install -r gymapp\requirements.txt```
+4. ```py -m gymapp\manage.py createsuperuser```
+5. ```py -m gymapp\manage.py runserver```
