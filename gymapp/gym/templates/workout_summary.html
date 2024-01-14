@@ -1,0 +1,39 @@
+<!-- templates/workout_detail.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}{{ workout.name }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/workout_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>{{ workout.name }}</h2>
+    <a href="{% url 'workout_list' %}" class="btn btn-primary">Back to Workout List</a>
+  </div>
+
+  <p class="mt-4"><strong>Date:</strong> {{ workout.date_created }}</p>
+
+  <h4 class="mt-4">Exercises:</h4>
+  
+  <ul>
+    {% for workout_exercise in workout.workoutexercise_set.all %}
+      <div class="exercise-container mt-2">
+        <h5>{{ workout_exercise.exercise.name }}</h5>
+
+        <h6>Sets:</h6>
+        <div class="set-container">
+          <ol start="1">
+            {% for set in workout_exercise.sets.all %}
+            
+              <p><strong>{{ forloop.counter }}. Set: &nbsp;&nbsp;&nbsp;&nbsp;</strong>Reps: <strong>{{ set.reps }}</strong> &nbsp;&nbsp;&nbsp;&nbsp;Weight: <strong>{{ set.weight }}</strong></p>
+            
+            {% endfor %}
+          </ol>
+        </div>
+      </div>
+    {% endfor %}
+  </ul>
+{% endblock %}
