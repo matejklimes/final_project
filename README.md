@@ -1,6 +1,12 @@
 # Maturitní projekt Gym Tracker
 
-Stačí zadat příkazy: 
+Gym tracker will help you with achieving your goals!
+
+## Installation
+
+First, you need to have installed Python on your computer: [Python]([https://pip.pypa.io/en/stable/](https://www.python.org/downloads/))
+
+Then, just put these commands into the console: 
 ```
 py -m venv .venv
 .venv\Scripts\activate
