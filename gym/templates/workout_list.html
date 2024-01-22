@@ -1,0 +1,42 @@
+<!-- templates/workout_list.html -->
+{% extends 'base_generic.html' %}
+{% load static %}
+
+{% block title %}Workout List{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/workout_list.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="workout-list-container">
+    <div class="header-container mb-4">
+      <h1>Workout List</h1>
+      <a href="{% url 'start_new_workout' %}" class="btn btn-primary">Start New Workout</a>
+    </div>
+
+    {% if workouts %}
+      <ul>
+        {% for workout in workouts %}
+          <a href="{% url 'workout_detail' workout.id %}" class="workout-link">
+            <div class="workout-item">
+              <div class="workout-header">
+                <h3 class="text-primary">{{ workout.name }}</h3>
+                <p><strong>{{ workout.date_created }}</strong></p>
+              </div>
+              <ul>
+                {% for workout_exercise in workout.workoutexercise_set.all %}
+                  <li>
+                    <h5>{{ workout_exercise.exercise.name }}</h5>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </a>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No workouts available.</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+
+.exercise-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.selected-exercise {
+    padding: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.exercise-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.exercise-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.exercise-list li:hover {
+    background-color: #f1f1f1;
+}
+
+.exercise-dropdown.open .exercise-list {
+    display: block;
+}
+
+input[type="number"] {
+    border: 1px solid #f8f9fa; 
+    border-radius: 5px; 
+    padding: 8px; 
+    background-color: #333; 
+    color: #f8f9fa; 
+}
+
+#exercise-select {
+    background-color: #555; 
+    border: 1px solid #555; 
+    border-radius: 5px; 
+    padding: 8px; 
+    color: #dcdcdc; 
+}
